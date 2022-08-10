@@ -38,6 +38,7 @@ async function run() {
         if (verElement === null || verElement === void 0 ? void 0 : verElement.nodeValue) {
             const ver = parse_version(verElement.nodeValue);
             if (ver) {
+                console.log(`version: ${verElement.nodeValue}`);
                 core.setOutput('version', verElement.nodeValue);
             }
             else {
@@ -56,7 +57,7 @@ function parse_version(version) {
     var _a, _b, _c, _d, _e;
     const match = version.match(regex);
     if (match) {
-        console.dir({ groups: match.groups });
+        //console.dir({groups: match.groups});
         return [(_a = match.groups) === null || _a === void 0 ? void 0 : _a.major, (_b = match.groups) === null || _b === void 0 ? void 0 : _b.minor, (_c = match.groups) === null || _c === void 0 ? void 0 : _c.patch, (_d = match.groups) === null || _d === void 0 ? void 0 : _d.prerelease, (_e = match.groups) === null || _e === void 0 ? void 0 : _e.buildmetadata];
     }
     return null;
@@ -75,11 +76,11 @@ function get_csproj_version(doc) {
 }
 function read_csproj(csprojfile) {
     const xml = fs.readFileSync(csprojfile, 'utf8');
-    console.log("%s", xml);
     const parser = new xmldom_1.DOMParser();
     const doc = parser.parseFromString(xml, "application/xml");
-    console.dir({ doc });
     if (doc == null) {
+        console.log("%s", xml);
+        console.dir({ doc });
         throw Error("error while parsing");
     }
     return doc;

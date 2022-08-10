@@ -21,6 +21,7 @@ async function run()
             const ver = parse_version(verElement.nodeValue);
             if (ver)
             {
+				console.log(`version: ${verElement.nodeValue}`);
                 core.setOutput('version', verElement.nodeValue);
             }
             else
@@ -44,7 +45,7 @@ function parse_version(version: string)
     const match = version.match(regex);
     if (match)
     {
-        console.dir({groups: match.groups});
+        //console.dir({groups: match.groups});
         return [match.groups?.major, match.groups?.minor, match.groups?.patch, match.groups?.prerelease, match.groups?.buildmetadata];
     }
     return null
@@ -71,17 +72,14 @@ function get_csproj_version(doc: Document)
 function read_csproj(csprojfile: string)
 {
     const xml = fs.readFileSync(csprojfile, 'utf8');
-    console.log("%s", xml);
-
     const parser = new DOMParser();
     const doc = parser.parseFromString(xml, "application/xml");
-    console.dir({doc});
-
     if (doc == null)
     {
+		console.log("%s", xml);
+		console.dir({doc});
         throw Error("error while parsing");
     }
-
     return doc;
 }
 
